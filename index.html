@@ -78,21 +78,23 @@
         //te permite buscar tu ubicacion
          var map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: -34.397, lng: 150.644},
-          zoom: 6
+          zoom: 12
         });
         var infoWindow = new google.maps.InfoWindow({map: map});
+
+        var usr_pos;
 
         // Try HTML5 geolocation.
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
+            usr_pos = {
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
 
-            infoWindow.setPosition(pos);
+            infoWindow.setPosition(usr_pos);
             infoWindow.setContent('Location found.');
-            map.setCenter(pos);
+            map.setCenter(usr_pos);
           }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
           });
@@ -100,12 +102,6 @@
           // Browser doesn't support Geolocation
           handleLocationError(false, infoWindow, map.getCenter());
         }
-
-        // var map = new google.maps.Map(document.getElementById('map'), {
-        //   center: {lat: -33.8688, lng: 151.2195},
-        //   zoom: 13,
-        //   mapTypeId: 'roadmap'
-        // });
 
         // Create the search box and link it to the UI element.
         var input = document.getElementById('pac-input');
