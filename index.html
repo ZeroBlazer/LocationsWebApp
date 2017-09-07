@@ -166,6 +166,8 @@
               position: place.geometry.location
             }));
 
+            calculateAndDisplayRoute(directionsService, directionsDisplay, usr_pos, place.geometry.location);
+
             if (place.geometry.viewport) {
               // Only geocodes have viewport.
               bounds.union(place.geometry.viewport);
@@ -176,7 +178,7 @@
           map.fitBounds(bounds);
         });
 
-        calculateAndDisplayRoute(directionsService, directionsDisplay, usr_pos, {lat: -16.398831, lng: -72.536495});
+//        calculateAndDisplayRoute(directionsService, directionsDisplay, usr_pos, {lat: -16.398831, lng: -72.536495});
 
         console.log(usr_pos);
       }
