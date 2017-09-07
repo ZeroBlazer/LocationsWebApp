@@ -74,13 +74,23 @@
       // parameter when you first load the API. For example:
       // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
+
+      var directionsDisplay;
+      var directionsService;
+
       function initAutocomplete() {
         //te permite buscar tu ubicacion
+        directionsDisplay = new google.maps.DirectionsRenderer();
+        directionsService = new google.maps.DirectionsService();
+
          var map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: -16.398831, lng: -71.536495},
           zoom: 15
         });
-        var infoWindow1 = new google.maps.InfoWindow1({map: map});
+
+         directionsDisplay.setMap(map);
+
+        var infoWindow1 = new google.maps.InfoWindow({map: map});
 
         var usr_pos;
         var infoWindow;
@@ -101,8 +111,8 @@
           });
         } else {
           // Browser doesn't support Geolocation
-          // handleLocationError(false, infoWindow1, map.getCenter());
           usr_pos = {lat: -16.398831, lng: -71.536495};
+          handleLocationError(false, infoWindow1, map.getCenter());
         }
 
         var service = new google.maps.places.PlacesService(map);
@@ -171,12 +181,12 @@
           map.fitBounds(bounds);
         });
 
-        calcRoute();
+        calcRoute(usr_pos);
       }
 
 
-      function handleLocationError(browserHasGeolocation, infoWindow1, pos) {
-        infoWindow1.setPosition(pos);
+      function handleLocationError(browserHasGeolocation, infoWindow1, usr_pos) {
+        infoWindow1.setPosition(usr_pos);
         infoWindow1.setContent(browserHasGeolocation ?
                               'Error: The Geolocation service failed.' :
                               'Error: Your browser doesn\'t support geolocation.');
@@ -214,14 +224,15 @@
         });
       }
 
-      function calcRoute() {
-        var start = document.getElementById('start').value;
-        var end = document.getElementById('end').value;
+      function calcRoute(usr_pos) {
+        // var start = document.getElementById('start').value;
+        // var end = document.getElementById('end').value;
         var request = {
           origin: usr_pos,
           destination: {lat: -16.398831, lng: -71.536495},
           travelMode: 'DRIVING'
         };
+
         directionsService.route(request, function(response, status) {
           if (status == 'OK') {
             directionsDisplay.setDirections(response);
