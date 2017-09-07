@@ -74,14 +74,10 @@
       // parameter when you first load the API. For example:
       // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
-
-      var directionsDisplay;
-      var directionsService;
-
       function initAutocomplete() {
         //te permite buscar tu ubicacion
-        directionsDisplay = new google.maps.DirectionsRenderer();
-        directionsService = new google.maps.DirectionsService();
+        var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer;
 
          var map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: -16.398831, lng: -71.536495},
@@ -181,7 +177,7 @@
           map.fitBounds(bounds);
         });
 
-        calcRoute(usr_pos);
+        calculateAndDisplayRoute(directionsService, directionsDisplay, usr_pos, usr_pos);
       }
 
 
@@ -224,22 +220,19 @@
         });
       }
 
-      function calcRoute(usr_pos) {
-        // var start = document.getElementById('start').value;
-        // var end = document.getElementById('end').value;
-        var request = {
-          origin: usr_pos,
-          destination: {lat: -16.398831, lng: -71.536495},
+      function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, destination) {
+        directionsService.route({
+          origin: origin,
+          destination: destination,
           travelMode: 'DRIVING'
-        };
-
-        directionsService.route(request, function(response, status) {
-          if (status == 'OK') {
+        }, function(response, status) {
+          if (status === 'OK') {
             directionsDisplay.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
           }
         });
       }
-
 
 
     </script>
