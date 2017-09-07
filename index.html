@@ -88,7 +88,7 @@
 
         var infoWindow1 = new google.maps.InfoWindow({map: map});
 
-        var usr_pos;
+        var usr_pos = {lat: -16.398831, lng: -71.536495};
         var infoWindow;
 
         // Try HTML5 geolocation.
@@ -107,7 +107,6 @@
           });
         } else {
           // Browser doesn't support Geolocation
-          usr_pos = {lat: -16.398831, lng: -71.536495};
           handleLocationError(false, infoWindow1, map.getCenter());
         }
 
@@ -177,7 +176,9 @@
           map.fitBounds(bounds);
         });
 
-        calculateAndDisplayRoute(directionsService, directionsDisplay, usr_pos, usr_pos);
+        calculateAndDisplayRoute(directionsService, directionsDisplay, usr_pos, {lat: -16.398831, lng: -72.536495});
+
+        console.log(usr_pos);
       }
 
 
@@ -187,8 +188,7 @@
                               'Error: The Geolocation service failed.' :
                               'Error: Your browser doesn\'t support geolocation.');
       }
-      
-      
+            
       // function initMap() {
       //   // infowindow = new google.maps.InfoWindow();
       //   var service = new google.maps.places.PlacesService(map);
@@ -220,10 +220,10 @@
         });
       }
 
-      function calculateAndDisplayRoute(directionsService, directionsDisplay, usr_pos, destination) {
+      function calculateAndDisplayRoute(directionsService, directionsDisplay, usr_pos, dest) {
         directionsService.route({
           origin: usr_pos,
-          destination: {lat: -16.398831, lng: -72.536495},
+          destination: dest,
           travelMode: 'DRIVING'
         }, function(response, status) {
           if (status === 'OK') {
