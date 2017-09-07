@@ -111,12 +111,12 @@
           handleLocationError(false, infoWindow1, map.getCenter());
         }
 
-        var service = new google.maps.places.PlacesService(map);
-        service.nearbySearch({
-          location: usr_pos,
-          radius: 500,
-          type: ['school']
-        }, callback);
+        // var service = new google.maps.places.PlacesService(map);
+        // service.nearbySearch({
+        //   location: usr_pos,
+        //   radius: 500,
+        //   type: ['school']
+        // }, callback);
 
         // Create the search box and link it to the UI element.
         var input = document.getElementById('pac-input');
@@ -220,10 +220,10 @@
         });
       }
 
-      function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, destination) {
+      function calculateAndDisplayRoute(directionsService, directionsDisplay, usr_pos, destination) {
         directionsService.route({
-          origin: origin,
-          destination: destination,
+          origin: usr_pos,
+          destination: {lat: -16.398831, lng: -72.536495},
           travelMode: 'DRIVING'
         }, function(response, status) {
           if (status === 'OK') {
